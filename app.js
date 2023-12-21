@@ -1,23 +1,19 @@
-// package, module or dependancy they all mean the same thing 
-// (a folder that contains reusable JS code)
+const http = require('http')
 
-// npm - global command, comes with node
-// npm --version
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.end('Home Page')
+  } else if (req.url === '/about') {
+    // BLOCKING CODE !!!
+    for (let i = 0; i < 1000; i++) {
+      for (let j = 0; j < 1000; j++) {
+        console.log(`${i} ${j}`)
+      }
+    }
+    res.end('About Page')
+  } else { res.end('Error Page') }
+})
 
-// local dependency - use it only in this particular project
-// npm i <packageName>
-
-// global dependency - use it in any project
-// npm install -g <packageName>
-// sudo npm install -g <packageName> (mac)
-
-// package.json - manifest file (stores important info about project/package)
-// manual approach (create package.json in the root, create propreties etc)
-// npm init (step by step, press enter to skip)
-// npm init -y (everything default)
-
-const _ = require('lodash');
-
-const items = [1, [2, [3, [4]]]];
-const newItems = _.flattenDeep(items);
-console.log(newItems);
+server.listen(5000, () => {
+  console.log('Server listening on port 5000....')
+})
